@@ -1,0 +1,415 @@
+%---------------------------------------------------------------------------------------------------
+%
+%	Edited by: Copyright (c) 2016 Jakub Kúdela
+%   Based on: Copyright (c) 2015 Jan Küster
+%
+%	The MIT License (MIT)
+%
+%	Permission is hereby granted, free of charge, to any person obtaining a copy
+%	of this software and associated documentation files (the "Software"), to deal
+%	in the Software without restriction, including without limitation the rights
+%	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%	copies of the Software, and to permit persons to whom the Software is
+%	furnished to do so, subject to the following conditions:
+%	
+%	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+%	THE SOFTWARE.
+%
+%---------------------------------------------------------------------------------------------------
+
+
+%===================================================================================================
+%	DOCUMENT DEFINITION
+%===================================================================================================
+
+%we use article class because we want to fully customize the page and dont use a cv template
+\documentclass[10pt,a4paper]{article}	
+
+%---------------------------------------------------------------------------------------------------
+%	ENCODING
+%---------------------------------------------------------------------------------------------------
+
+%we use utf8 since we want to build from any machine
+\usepackage[utf8]{inputenc}		
+
+%---------------------------------------------------------------------------------------------------
+%	LOGIC
+%---------------------------------------------------------------------------------------------------
+
+% provides \isempty test
+\usepackage{xifthen}
+
+%---------------------------------------------------------------------------------------------------
+%	FONT
+%---------------------------------------------------------------------------------------------------
+
+% some tex-live fonts - choose your own
+
+%\usepackage[defaultsans]{droidsans}
+%\usepackage[default]{comfortaa}
+%\usepackage{cmbright}
+\usepackage[default]{raleway}
+%\usepackage{fetamont}
+%\usepackage[default]{gillius}
+%\usepackage[light,math]{iwona}
+%\usepackage[thin]{roboto}
+\usepackage{hyperref}
+
+% set font default
+\renewcommand*\familydefault{\sfdefault} 	
+\usepackage[T1]{fontenc}
+
+% more font size definitions
+\usepackage{moresize}		
+
+%---------------------------------------------------------------------------------------------------
+%	PAGE LAYOUT  DEFINITIONS
+%---------------------------------------------------------------------------------------------------
+
+%debug page outer frames
+%\usepackage{showframe}			
+
+%define page styles using geometry
+\usepackage[a4paper]{geometry}		
+
+% for example, change the margins to 2 inches all round
+\geometry{top=1.75cm, bottom=-.6cm, left=1.5cm, right=1.5cm} 	
+
+%use customized header
+\usepackage{fancyhdr}		
+\pagestyle{fancy}
+
+%less space between header and content
+\setlength{\headheight}{-5pt}		
+
+%customize entries left, center and right
+\lhead{}
+\chead{\small{
+  Dulitha Kularathne $\cdot$ 
+  R  \& D Engineer $\cdot$ 
+  Colombo, Sri Lanka $\cdot$ 
+  \textcolor{sectcol}{\textbf{\href
+  {mailto:dulithamethmal@gmail.com}
+  {dulithamethmal@gmail.com}}} $\cdot$
+  +94702337343
+}}
+\rhead{}
+
+%indentation is zero
+\setlength{\parindent}{0mm}
+
+%---------------------------------------------------------------------------------------------------
+%	TABLE /ARRAY DEFINITIONS
+%--------------------------------------------------------------------------------------------------- 
+
+%for layouting tables
+\usepackage{multicol}			
+\usepackage{multirow}
+
+%extended aligning of tabular cells
+\usepackage{array}
+\newcolumntype{x}[1]{>{\raggedleft\hspace{0pt}}p{#1}}
+
+%---------------------------------------------------------------------------------------------------
+%	GRAPHICS DEFINITIONS
+%--------------------------------------------------------------------------------------------------- 
+
+%for header image
+\usepackage{graphicx}
+
+%for floating figures
+\usepackage{wrapfig}
+\usepackage{float}
+%\floatstyle{boxed} 
+%\restylefloat{figure}
+
+%for drawing graphics		
+\usepackage{tikz}				
+\usetikzlibrary{shapes, backgrounds,mindmap, trees}
+
+%---------------------------------------------------------------------------------------------------
+%	Color DEFINITIONS
+%--------------------------------------------------------------------------------------------------- 
+
+\usepackage{color}
+
+%accent color
+\definecolor{sectcol}{RGB}{90,90,120}
+
+%dark background color
+\definecolor{bgcol}{RGB}{110,110,110}
+
+%light background / accent color
+\definecolor{softcol}{RGB}{225,225,225}
+
+%===================================================================================================
+%	DEFINITIONS
+%===================================================================================================
+
+%---------------------------------------------------------------------------------------------------
+% 	HEADER
+%---------------------------------------------------------------------------------------------------
+
+% remove top header line
+\renewcommand{\headrulewidth}{0pt} 
+
+%remove botttom header line
+\renewcommand{\footrulewidth}{0pt}	  	
+
+%remove pagenum
+\renewcommand{\thepage}{}	
+
+%remove section num		
+\renewcommand{\thesection}{}			
+
+%---------------------------------------------------------------------------------------------------
+% 	ARROW GRAPHICS in Tikz
+%---------------------------------------------------------------------------------------------------
+
+% a six pointed arrow poiting to the left
+\newcommand{\tzlarrow}{(0,0) -- (0.2,0) -- (0.3,0.2) -- (0.2,0.4) -- (0,0.4) -- (0.1,0.2) -- cycle;}	
+
+% include the left arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\larrow}[1]{
+  \begin{tikzpicture}[scale=0.58]
+    \filldraw[fill=#1!100,draw=#1!100!black]  \tzlarrow
+  \end{tikzpicture}
+}
+
+% a six pointed arrow poiting to the right
+\newcommand{\tzrarrow}{ (0,0.2) -- (0.1,0) -- (0.3,0) -- (0.2,0.2) -- (0.3,0.4) -- (0.1,0.4) -- cycle;}
+
+% include the right arrow into a tikz picture
+% param1: fill color
+%
+\newcommand{\rarrow}{
+  \begin{tikzpicture}[scale=0.7]
+    \filldraw[fill=sectcol!100,draw=sectcol!100!black] \tzrarrow
+  \end{tikzpicture}
+}
+%---------------------------------------------------------------------------------------------------
+%	custom sections
+%---------------------------------------------------------------------------------------------------
+
+% create a coloured box with arrow and title as cv section headline
+% param 1: section title
+%
+\newcommand{\cvsection}[1]{
+  \vspace{10pt}
+  \colorbox{sectcol}{\mystrut \makebox[1\linewidth][l]{
+    \larrow{bgcol} \hspace{-8pt} \larrow{bgcol} \hspace{-8pt} 
+    \larrow{bgcol}\textcolor{white}{\textbf{#1}}\hspace{4pt}
+  }}\\
+}
+
+%create a coloured arrow with title as cv meta section section
+% param 1: meta section title
+%
+\newcommand{\metasection}[2]{
+  \begin{tabular*}{1\textwidth}{p{2.4cm} p{11cm}}
+    \larrow{bgcol} \normalsize{\textcolor{sectcol}{#1}}&#2\\[10pt]
+  \end{tabular*}
+}
+
+%---------------------------------------------------------------------------------------------------
+%	 CV EVENT
+%---------------------------------------------------------------------------------------------------
+
+% creates a stretched box as cv entry headline followed by two paragraphs
+% param 1:	event time i.e. 2014 or 2011-2014 etc.
+% param 2:	event name (what did you do?)
+% param 3:	institution (where did you work / study)
+%
+\newcommand{\cvevent}[3]{
+  \begin{tabular*}{1\textwidth}{p{2.5cm} p{10.5cm} x {4.0cm}}
+    \textcolor{bgcol}{#1} & \textbf{#2} & \vspace{2.5pt}\textcolor{sectcol}{#3}
+  \end{tabular*}
+  \vspace{-10pt}
+  \textcolor{softcol}{\hrule}
+  \vspace{10pt}
+}
+
+% creates a stretched box as cv entry detail 
+% param 1:	information describing the event
+%
+\newcommand{\cvdetail}[1]{
+  \begin{tabular*}{1\textwidth}{p{2.5cm} p{14.5cm}}
+    & \larrow{bgcol}  #1\\ [3pt]
+  \end{tabular*}
+}
+
+%---------------------------------------------------------------------------------------------------
+% CUSTOM STRUT FOR EMPTY BOXES
+%---------------------------------------------------------------------------------------------------
+\newcommand{\mystrut}{\rule[-.3\baselineskip]{0pt}{\baselineskip}}
+
+%===================================================================================================
+%	DOCUMENT CONTENT
+%===================================================================================================
+\title{resume}
+\begin{document}
+
+% use our custom fancy header definitions
+\pagestyle{fancy}	
+
+%---------------------------------------------------------------------------------------------------
+%	TITLE HEADLINE
+%---------------------------------------------------------------------------------------------------
+
+\vspace{-20pt}
+
+% use this for single words, e.g. CV or RESUME etc.
+\hspace{-0.25\linewidth}\colorbox{bgcol}{
+  \makebox[1.5\linewidth][c]{
+    \HUGE{\textcolor{white}{\textsc{Dulitha Kularathne}}} 
+    \textcolor{sectcol}{\rule[-1mm]{1mm}{0.9cm}} 
+    \HUGE{\textcolor{white}{\textsc{Resume}}}
+  }
+}
+
+%---------------------------------------------------------------------------------------------------
+%	HEADER IMAGE
+%---------------------------------------------------------------------------------------------------
+
+\begin{figure}[H]
+\begin{flushright}
+  \includegraphics[width=0.2\linewidth]{photo.jpg}
+\end{flushright}
+\end{figure}
+
+%---------------------------------------------------------------------------------------------------
+%	META SECTION
+%---------------------------------------------------------------------------------------------------
+
+\vspace{-115pt}
+
+\metasection{Status:}{R \& D Engineer (Senior) at Synopsys Lanka (Pvt) Ltd}
+\metasection{Skills:}{C++, Java, Python, Bash, GNU Debugger, Verilog, VHDL} 
+\metasection{Interests:}{Data Science, Deep Learning}
+\metasection{Activities:}{Table Tennis, Swimming}
+
+%---------------------------------------------------------------------------------------------------
+%	SUMMARAY (optional)
+%---------------------------------------------------------------------------------------------------
+
+\cvsection{Professional Summary}
+
+I am a person of integrity and I would like to introduce myself as a person without limits. Throughout my career as a software developer, I was working on a wide range of technologies and was driving results regardless of the domain. I have faith in my capabilities and I always tend to make realistic goals at the same time trying to push my limits. Being responsible about each item on my work schedule is something that I would never quit. Climbing higher up on the career ladder is all about connecting the dots and creating the bigger picture is something that I always believe in and work towards.
+\newline
+%===================================================================================================
+%	CV SECTIONS AND EVENTS (MAIN CONTENT)
+%===================================================================================================
+
+%---------------------------------------------------------------------------------------------------
+%	EXPERIENCE
+%---------------------------------------------------------------------------------------------------
+
+\cvsection{Experience}
+\newline\newline
+\cvevent{'18/06 - now}{R \& D II - Senior}{Synopsys Lanka}
+\cvdetail{Present team's progress at the release meetings as the representative of the product team (VHDL/Verilog Compiler - Core Component)}
+\cvdetail{Prepare action items for the team members and perform follow ups}
+\cvdetail{A key developer in VHDL 2008 new language construct Implementation project (1076-2008 - IEEE Standard implementation)}
+\cvdetail{A key developer in product migration project for AMD (From VcLint to Vc-SpyGlass-Lint)}
+\cvdetail{Solved critical issues occurred in the designs of Intel (Was sent as the Synopsys representative to the Intel Bangalore site)}
+\cvdetail{Maintain QOR ( Quality of Results ) of the component as the component owner ( VHDL Compiler )}
+\cvdetail{Follow up on the code quality metrics}
+\cvdetail{Provide go-aheads for the product releases on behalf of the component}
+
+\cvevent{'16/04 - '18/06}{R \& D I}{Synopsys Lanka}
+\cvdetail{Worked as one of the key developers of the VHDL compiler of the SpyGlass product}
+\cvdetail{Pioneered the test suite migration process from Atrenta regression setup to Synopsys regression setup}
+\cvdetail{Was one of the main developers of VCS-SpyGlass integration project}
+\cvdetail{Was working on many large scale issues reported by customers such as Intel, Qualcomm, Marvell Semiconductor, ST Microelectronics, Infineon Semiconductor \& etc.}
+\cvdetail{Took responsibility of the items assigned and committed on to the deadlines which were met with the appropriate deliverables}
+
+\cvevent{'14/10 - '15/04}{Intern}{Atrenta Lanka}
+\cvdetail{Worked on the product, SpyGlass Physical}
+\cvdetail{Worked on a restructuring project on SpyGlass Physical. Task was to re-implement already implemented python algorithms in C++ in order to gain performance}
+\cvdetail{Was able to re-architect the violation reporting mechanism in SpyGlass Physical}
+\cvdetail{Integrated a GUI testing platform and set up a GUI test suite for regression testing on SpyGlass Physical GUI}
+
+
+
+%---------------------------------------------------------------------------------------------------
+%	ARTIFICIAL FOOTER (fancy footer cannot exceed linewidth) 
+%---------------------------------------------------------------------------------------------------
+
+\null
+\vspace*{\fill}
+\hspace{-0.25\linewidth}\colorbox{bgcol}{
+  \makebox[1.5\linewidth][c]{
+    \mystrut \small 
+    \textcolor{white}{
+      \href{https://www.linkedin.com/in/dulitha91/}
+      {https://www.linkedin.com/in/dulitha91/}
+    } 
+  }
+}
+
+%---------------------------------------------------------------------------------------------------
+%	EDUCATION SECTION
+%---------------------------------------------------------------------------------------------------
+\newpage\cvsection{Education}
+
+\cvevent{2017 - 2019}{MSc, Data Science Specialization}{University of Moratuwa}
+\cvdetail{Reading for research}
+\newline
+\cvevent{2011 - 2015}{BSc, Computer Science}{University of Moratuwa}
+\cvdetail{Second class upper division}
+\newline\newline
+%---------------------------------------------------------------------------------------------------
+%	SPECIAL PROJECTS
+%---------------------------------------------------------------------------------------------------
+\cvsection{Special Projects}
+\newline
+\cvevent{MSc Research}{Real Time Anomaly Detection of Crowds in CCTV Streams}{University of Moratuwa}
+\newline\newline
+This is the MSc research project that is in progress at the moment. This is a deep learning based video processing project that would have a huge potential and a value in the current context of our country. The project is about anomaly detection in crowded scenarios. The basic idea of the project is that if there is an anomalous scene like a street fight, it would be captured and a flag would be inserted so that the user can later review those flagged frames. A new architecture is suggested in order to make the detection process unsupervised and adaptable to the context. A project proposal and a literature review has been submitted and will be engaged with implementation soon. 
+\newline\newline\newline
+\cvevent{BSc Research}{Vidasa- BSc  Final Year Project}{University of Moratuwa}
+\newline\newline
+This is a computer vision and machine learning based project developed entirely based on C++ technologies( Open CV / Qt ). A POC system was developed that observes the pedestrians on a crossing and by simultaneously observing the vehicle flow on the road, the system was able to issue suggestions for traffic light switching.  This system was awarded with an A+ at the final evaluations.
+\newline\newline\newline
+%---------------------------------------------------------------------------------------------------
+%	STRENGTHS
+%---------------------------------------------------------------------------------------------------
+\cvsection{Strengths}
+
+    \cvdetail{Quick learner with adaptability}
+    \cvdetail{Making right decisions based on the context}
+    \cvdetail{Expert C++ debugging skills}
+    \cvdetail{Ability to convince an audience on a topic}
+    \cvdetail{Thinking out of the box}
+    \cvdetail{Learning attitude}
+
+
+
+
+%---------------------------------------------------------------------------------------------------
+%	ARTIFICIAL FOOTER (fancy footer cannot exceed linewidth) 
+%---------------------------------------------------------------------------------------------------
+
+\null
+\vspace*{\fill}
+\hspace{-0.25\linewidth}\colorbox{bgcol}{
+  \makebox[1.5\linewidth][c]{
+    \mystrut \small 
+    \textcolor{white}{
+      \href{https://www.linkedin.com/in/dulitha91/}
+      {https://www.linkedin.com/in/dulitha91/}
+    } 
+  }
+}
+
+%===================================================================================================
+%	DOCUMENT END
+%===================================================================================================
+\end{document}
